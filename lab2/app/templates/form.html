@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <h1>Форма</h1>
+        <form method="POST">
+          <div class="mb-3">
+              <label for="phoneInput" class="form-label">Номер телефона</label>
+              <input name="phone" type="tel" class="form-control" id="phoneInput" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Проверить</button>
+      </form>
+      <script>
+
+    const phoneInput = document.getElementById('phoneInput');
+    const form = document.querySelector('form'); 
+
+    function formatPhoneNumber(phone) {
+        const cleaned = phone.replace(/[^\d+()-. ]/g, ''); // Удаляем все символы, кроме цифр и дополнительных разрешенных
+        return cleaned.replace(/(\d{1})(\d{3})(\d{3})(\d{2})(\d{2})/, '8-$2-$3-$4-$5');
+    }
+
+    form.addEventListener('submit', function(event) {
+        const phoneValue = phoneInput.value;
+
+        if (!/^(\+7|8)?[\d+()-. ]{10,11}$/.test(phoneValue)) {
+            event.preventDefault(); // Предотвращаем отправку формы
+            if (phoneValue.length !== 10 && phoneValue.length !== 11) {
+                alert('Недопустимый ввод. Неверное количество цифр.');
+            } else {
+                alert('Недопустимый ввод. В номере телефона встречаются недопустимые символы.');
+            }
+        } else {
+            phoneInput.value = formatPhoneNumber(phoneValue); // Преобразуем и выводим номер телефона в новом формате
+        }
+    });
+    </script>
+        {% if request.method == "POST" %}
+            <table class="table">
+            {% for key, value in request.form.items()%}
+            <tr>
+                <td>{{key}}</td>
+                <td>{{value}}</td>
+            </tr>
+            {% endfor%}
+            </table>
+        {% endif %}
+    </div>
+{% endblock %}
