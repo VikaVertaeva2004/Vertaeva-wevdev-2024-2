@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <h1>Форма</h1>
+        <form method="POST">
+          <div class="mb-3">
+              <label for="phoneInput" class="form-label">Номер телефона</label>
+              <input name="phone" type="tel" class="form-control" id="phoneInput" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Проверить</button>
+      </form>
+    <!-- <script>
+        const phoneInput = document.getElementById('phoneInput');
+        const form = document.querySelector('form'); 
+        
+        function formatPhoneNumber(phone) {
+            const cleaned = phone.replace(/[^\d+()-. ]/g, ''); // Удаляем все символы, кроме цифр и дополнительных разрешенных
+            const cleanedWithoutSpaces = cleaned.replace(/\s/g, ''); // Удаляем пробелы
+            const cleanedWithoutDots = cleanedWithoutSpaces.replace(/\./g, ''); // Удаляем точки
+            return cleanedWithoutDots.replace(/(\d{1})(\d{3})(\d{3})(\d{2})(\d{2})/, '8-$2-$3-$4-$5');
+        }
+        
+        form.addEventListener('submit', function(event) {
+            const phoneValue = phoneInput.value;
+        
+            if (!/^(\+7|8)?[\d()\s.-]{10,11}$/.test(phoneValue.replace(/[()\s.-]/g, ''))) {
+                event.preventDefault(); // Предотвращаем отправку формы
+                if (!/[\d]/g.test(phoneValue)) {
+                    alert('Недопустимый ввод. Номер телефона должен содержать цифры.');
+                } else {
+                    alert('Недопустимый ввод. В номере телефона встречаются недопустимые символы.');
+                }
+            } else {
+                const formattedPhone = formatPhoneNumber(phoneValue); // Преобразуем номер телефона
+                phoneInput.value = formattedPhone; // Выводим номер телефона в новом формате
+            }
+        });
+        </script> -->
+        <script>
+            const phoneInput = document.getElementById('phoneInput');
+            const form = document.querySelector('form'); 
+            
+            function formatPhoneNumber(phone) {
+                const cleaned = phone.replace(/[^\d+()-. ]/g, ''); // Удаляем все символы, кроме цифр и дополнительных разрешенных
+                const cleanedWithoutSpaces = cleaned.replace(/\s/g, ''); // Удаляем пробелы
+                const cleanedWithoutDots = cleanedWithoutSpaces.replace(/\./g, ''); // Удаляем точки
+                let formattedPhone = cleanedWithoutDots.replace(/(\d{1})(\d{3})(\d{3})(\d{2})(\d{2})/, '8-$2-$3-$4-$5'); // Преобразуем номер в формат "8-***-***-**-**"
+            
+                if (formattedPhone.startsWith('+79') || formattedPhone.startsWith('+7(9') || formattedPhone.startsWith('+7 9')) {
+                    formattedPhone = formattedPhone.replace(/^7/, '8'); // Заменяем "7" на "8"
+                }
+            
+                return formattedPhone.replace(/[()+]/g, ''); // Удаляем скобки и плюсы
+            }
+            
+            form.addEventListener('submit', function(event) {
+                const phoneValue = phoneInput.value;
+            
+                if (!/^(\+7|8)?[\d()\s.-]{10,11}$/.test(phoneValue.replace(/[()\s.-]/g, ''))) {
+                    event.preventDefault(); // Предотвращаем отправку формы
+                    if (!/[\d]/g.test(phoneValue)) {
+                        alert('Недопустимый ввод. Номер телефона должен содержать цифры.');
+                    } else {
+                        alert('Недопустимый ввод. В номере телефона встречаются недопустимые символы.');
+                    }
+                } else {
+                    const formattedPhone = formatPhoneNumber(phoneValue); // Преобразуем номер телефона
+                    phoneInput.value = formattedPhone; // Выводим номер телефона в новом формате
+                }
+            });
+            </script>
+        {% if request.method == "POST" %}
+            <table class="table">
+            {% for key, value in request.form.items()%}
+            <tr>
+                <td>{{key}}</td>
+                <td>{{value}}</td>
+            </tr>
+            {% endfor%}
+            </table>
+        {% endif %}
+    </div>
+{% endblock %}
