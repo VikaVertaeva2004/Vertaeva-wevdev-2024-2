@@ -1,0 +1,28 @@
+{% extends 'visits/base.html' %}
+{% from '/pagination.html' import pagination %}
+
+{% block tabs %}
+  {% if values %}
+  <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">№</th>
+          <th scope="col">Пользователь</th>
+          <th scope="col">Количество посещений</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for val in values %}
+        <tr>
+          <td>{{ loop.index + 1 }}</td>
+          <td>{{ val.user_full_name or 'Неаутентифицированный пользователь' }}</td>
+          <td>{{ val.cnt2 }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {{ pagination(count, page) }}
+  {% else %}
+    <p>No visit logs available.</p>
+  {% endif %}
+{% endblock %}

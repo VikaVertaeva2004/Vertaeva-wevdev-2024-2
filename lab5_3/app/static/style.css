@@ -1,0 +1,17 @@
+body {
+	display: flex;
+	flex-direction: column;
+}
+
+main {
+	flex: 1;
+	padding: 20px;
+	position: relative;
+}
+
+.footer {
+	font-size: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}

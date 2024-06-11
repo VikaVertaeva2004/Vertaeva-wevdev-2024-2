@@ -1,0 +1,32 @@
+{% extends 'visits/base.html' %}
+{% from '/pagination.html' import pagination %}
+
+{% block tabs %}
+  {% if values %}
+  <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">№</th>
+          <th scope="col">Пользователь</th>
+          <th scope="col">Страница</th>
+          <th scope="col">Дата</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for val in values %}
+        <tr>
+          <td>{{ loop.index + (page - 1) * 10 }}</td>
+          <td>{{ val.user_full_name or 'Неаутентифицированный пользователь' }}</td>
+          <td>{{ val.path }}</td>
+          <td>{{ val.created_at.strftime('%d.%m.%Y %H:%M:%S') }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {{pagination(count, page)}}
+  {% else %}
+    <p>No visit logs available.</p>
+  {% endif %}
+  <a class="btn btn-primary" href="{{url_for('visit.send_csv')}}">Export CSV</a>
+{% endblock %}
