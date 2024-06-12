@@ -1,0 +1,38 @@
+{% extends "base.html" %} {% block content %}
+<div class="container">
+  <form method="POST">
+    <div class="mb-3">
+      <label for="exampleInputPassword1" class="form-label">Старый пароль</label>
+      <input
+        name="password"
+        type="password"
+        class="form-control"
+        id="exampleInputPassword1"
+     
+      />
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputPassword1" class="form-label">Новый пароль</label>
+      <input
+        name="n_password"
+        type="password"
+        class="form-control"
+        id="exampleInputPassword2"
+      
+      />
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputPassword1" class="form-label">Повторите пароль</label>
+      <input
+        name="n2_password"
+        type="password"
+        class="form-control"
+        id="exampleInputPassword3"
+      
+      />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+  </form>
+</div>
+{% endblock %}
